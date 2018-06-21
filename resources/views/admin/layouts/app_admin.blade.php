@@ -19,6 +19,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
 </head>
 <body>
     <div id="app">
@@ -39,12 +43,8 @@
                                     Блог
                             </a>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Категории</a>
+                                    <a class="dropdown-item" href="{{route('admin.category.index')}}">Категории</a>
                                     <a class="dropdown-item" href="#">Материалы</a>
-                            </div>
-                        </li>
-                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Категории2</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

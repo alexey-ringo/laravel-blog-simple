@@ -13,6 +13,8 @@
 //Группа роутов для админки
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth'] ], function () {
     Route::get('/', 'DashboardController@dashboard')->name('admin.index');
+    //['as'=>'admin'] - префикс для именнованного маршрута (для исключения пересечения с др ресурсами)
+    Route::resource('/category', 'CategoryController', ['as'=>'admin']);
 });
 
 Route::get('/', function () {
