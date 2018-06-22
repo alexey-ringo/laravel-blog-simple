@@ -30,6 +30,17 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('admin.categories.create', [
+            'category' => [],
+            
+            //categories - дерево коллекций
+            //with('findChildrenCat') - коллекции с вложенными категориями
+            //where('parent_id', 0) - получаем категории, которые являются только родителями и никому не подчиняются
+            'categories' => Category::with('findChildrenCat')->where('parent_id', 0)->get(),
+            
+            //Некий символ, определяющий вложенность. Для наглядности визуализации
+            'delimiter' => ''
+            ]);
     }
 
     /**
@@ -38,10 +49,13 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     //Создание записей о категтриях в таблице
+     //Запись категорий в DB
     public function store(Request $request)
     {
-        //
+        //Метод для массового заполнения аттрибутов модели
+        Category::create($request->all());
+        
+        return redirect()->route('admin.category.index');
     }
 
     /**
