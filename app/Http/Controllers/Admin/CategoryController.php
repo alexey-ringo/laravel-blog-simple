@@ -26,7 +26,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     //Открыте формы создания категорий
+     //Открыте формы создания новых категорий
     public function create()
     {
         //
@@ -88,7 +88,7 @@ class CategoryController extends Controller
             //where('parent_id', 0) - получаем категории, которые являются только родителями и никому не подчиняются
             'categories' => Category::with('findChildrenCat')->where('parent_id', 0)->get(),
             
-            //Некий символ, определяющий вложенность. Для наглядности визуализации
+            //Некий символ, определяющий вложенность. Для наглядности визуализации вложенности
             'delimiter' => ''
             ]);
     }
@@ -100,7 +100,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-     //Запись отредпктированных категорид в базу
+     //Запись отредпктированных категорий в базу
     public function update(Request $request, Category $category)
     {
         //
@@ -115,8 +115,12 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
+     //Удаление записи категории
     public function destroy(Category $category)
     {
         //
+        $category->delete();
+        
+        return redirect()->route('admin.category.index');
     }
 }
