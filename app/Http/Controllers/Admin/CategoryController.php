@@ -49,7 +49,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     //Запись категорий в DB
+     //Запись вновь созданных категорий в DB
     public function store(Request $request)
     {
         //Метод для массового заполнения аттрибутов модели
@@ -76,10 +76,21 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-     //Открыте формы обновления
+     //Открыте формы редактирования категорий
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', [
+            //Коллекцию категорий
+            'category' => $category,
+            
+            //categories - дерево коллекций
+            //with('findChildrenCat') - коллекции с вложенными категориями
+            //where('parent_id', 0) - получаем категории, которые являются только родителями и никому не подчиняются
+            'categories' => Category::with('findChildrenCat')->where('parent_id', 0)->get(),
+            
+            //Некий символ, определяющий вложенность. Для наглядности визуализации
+            'delimiter' => ''
+            ]);
     }
 
     /**
@@ -89,10 +100,13 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-     //Собственно обновление
+     //Запись отредпктированных категорид в базу
     public function update(Request $request, Category $category)
     {
         //
+        $category->update($request->except('slug'));
+        
+        return redirect()->route('admin.category.index');
     }
 
     /**
