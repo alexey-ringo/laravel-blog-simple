@@ -44,7 +44,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{route('admin.category.index')}}">Категории</a>
-                                    <a class="dropdown-item" href="#">Материалы</a>
+                                    <a class="dropdown-item" href="{{route('admin.article.index')}}">Материалы</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
