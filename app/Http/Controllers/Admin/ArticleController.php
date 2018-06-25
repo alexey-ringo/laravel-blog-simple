@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Article;
+use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,7 +17,7 @@ class ArticleController extends Controller
     public function index()
     {
         //передаем переменную с новостями
-        //сортировка по новостям в обратном порядке по дате создания
+        //сортировка по новостям в обратном порядке по дате создания новости
         return view('admin.articles.index', [
             'articles' => Article::orderBy('created_at', 'desc')->paginate(10)
             ]);
@@ -30,6 +31,17 @@ class ArticleController extends Controller
     public function create()
     {
         //
+        return view('admin.articles.create', [
+            'article' => [],
+            
+            //categories - дерево коллекций категорий для присвоения их новости
+            //with('findChildrenCat') - коллекции категорий с вложенными категориями
+            //where('parent_id', 0) - получаем категории, которые являются только родителями и никому не подчиняются
+            'categories' => Category::with('findChildrenCat')->where('parent_id', 0)->get(),
+            
+            //Некий символ, определяющий вложенность категорий. Для наглядности визуализации
+            'delimiter' => ''
+            ]);
     }
 
     /**
@@ -41,6 +53,13 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         //
+        $article = Article::create($request->all());
+        //Проверка наличия значения name="categories[]" в форме создания новостей
+        if($request->input('categories')):
+            $article->morphCategoriesToMany()->attach($request->input('categories'));
+        endif;
+        
+         return redirect()->route('admin.article.index');
     }
 
     /**

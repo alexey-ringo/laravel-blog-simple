@@ -14,7 +14,7 @@ class Category extends Model
     //автоматическое формирование уникального значения поля slug из title
     //'set' - установить наименование, 'Slug' - название поля и Attribute. В соответсвии со стандартом
     public function setSlugAttribute($value) {
-        //Второй параметр для Str::slug - что использовать вместо пробелов при генерации Slug
+        //Второй параметр для Str::slug - что будем использовать вместо пробелов при генерации Slug
         $this->attributes['slug'] = Str::slug( mb_substr($this->title, 0, 40) . "-" . \Carbon\Carbon::now()->format('dmyHi'), '-');
     }
     
